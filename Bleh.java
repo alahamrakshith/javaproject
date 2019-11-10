@@ -1,50 +1,50 @@
 import java.util.*;
+import java.io.*;
+import detailspackage.Details;           // Custom package which includes an abstract class of the blueprint of customer details
 
-abstract class Details                                                  // Abstract Class used here
-{ static int count=0;
-  String name;
-  int age;
-  int id;
-  Details()
-  {
-    count++;
-    this.id=count;
-  }
-  abstract void set_info(String name,int age);                        // Abstract method used here
-  abstract void show_info();
-}
-public class Bleh extends Details
+class Bleh extends Details
 {
   public static void main(String args[])
   { int t=0;
     Details d[]=new Details[100];                                   // Array of objects used here
+    try{
     Scanner sc=new Scanner(System.in);
-    while(true)
+    FileOutputStream fout=new FileOutputStream("Database.txt");
+    System.out.println("Enter the number of guests");
+    int numofguests=sc.nextInt();                                    // Wrapper class used here
+    for(int i=1;i<=numofguests;i++)
     {
-      System.out.println("Enter the number of guests");
-      int numofguests=sc.nextInt();                                    // Wrapper class used here
-      for(int i=1;i<=numofguests;i++)
+      d[count]=new Bleh();
+      System.out.println("Enter name and age");
+      String tempname=sc.next();
+      int tempage=sc.nextInt();
+      d[count-1].set_info(tempname,tempage);
+      String strage= Integer.toString(tempage);
+      String addedstrings=(tempname+" "+strage);
+      for(int j=0;j<addedstrings.length();j++)// Name and age of all pushed in to a database txt file using FileOutputStream
       {
-        d[count]=new Bleh();
-        System.out.println("Enter name and age");
-        String tempname=sc.next();
-        int tempage=sc.nextInt();
-        d[count-1].set_info(tempname,tempage);
+        fout.write(addedstrings.charAt(j));
       }
-      System.out.println("Details of all the guests are");
-      for(int i=0;i<count;i++)
-      {
-        d[i].show_info();
-      }
+      fout.write('\n');
+    }
+    fout.close();
+    }catch(Exception e){System.out.println(e);}
+    System.out.println("Details of all the guests are");
+    for(int i=0;i<count;i++)
+    {
+      d[i].show_info();
     }
   }
-  void set_info(String name,int age)                                // Method Overriding used here
+  @Override
+  public void set_info(String name,int age)                          // Method Overriding used here
   {
     this.name=name;
     this.age=age;
   }
-  void show_info()
+  @Override
+  public void show_info()
   {
     System.out.println(" "+name+" "+age+" "+id+" ");
   }
+
 }
