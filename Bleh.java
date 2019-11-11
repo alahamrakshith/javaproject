@@ -2,7 +2,30 @@ import java.util.*;
 import java.io.*;
 import detailspackage.Details;           // Custom package which includes an abstract class of the blueprint of customer details
 
-class Bleh extends Details
+class Rides extends Details                          //Outer Class used here
+{
+  public static final int time = 10000;
+  class Rollercoaster                             //Innerclass used here
+  {
+    int minage=18;
+  }
+  class Bumpercars
+  {
+    int minage=12;
+  }
+  class Ferriswheel
+  {
+    int minage=10;
+  }
+  class Waterpark
+  {
+    int minage=7;
+  }
+  public void set_info(String name, int age){}
+  public void show_info(){}
+}
+
+class Bleh extends Rides
 {
   public static void main(String args[])
   { int t=0;

@@ -6,6 +6,7 @@ public abstract class Details                                             // Abs
   public String name;
   public int age;
   public int id;
+  public int numofridesallowed=10;
   public Details()
   {
     count++;
