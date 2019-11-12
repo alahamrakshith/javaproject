@@ -122,7 +122,10 @@ class Bleh extends Rides
                     if(d[temp[i]-1].numofridesallowed>0)
                     {
                       rollcoast.ridecount++;
-                      d[temp[i]-1].start();                               // Thread sleep function used
+                      d[temp[i]-1].start();                               // Thread sleep function used here
+                      try{
+                        d[temp[i]-1].join();                              // Thread join fucntion used here
+                      }catch(Exception e){System.out.println(e);}
                     }
                   }
                 }
