@@ -1,6 +1,6 @@
 
 package detailspackage;
-public abstract class Details                                             // Abstract Class used here
+public abstract class Details extends Thread                                  // Abstract Class used here
 {
   public static int count=0;                                                  // Static variable used here
   public String name;
