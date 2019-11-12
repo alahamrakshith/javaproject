@@ -15,8 +15,10 @@ class Rides extends Details                       //Outer Class used here
   public void run()
   {
     try{
-      Thread.sleep(time);
+      System.out.println(this.name+" started taking the ride");
+      Thread.sleep(this.time);
       this.numofridesallowed--;
+      System.out.println(this.name+" finished riding the ride");
     }catch(InterruptedException e){System.out.println(e);}
   }
   class Rollercoaster                             //Innerclass used here
@@ -84,7 +86,7 @@ class Bleh extends Rides
     }
     fout.close();
     }catch(Exception e){System.out.println(e);}
-    Rides.Rollercoaster rollcoast = d[0].new Rollercoaster();
+    Rides.Rollercoaster rollcoast = d[0].new Rollercoaster();             // Objects of Innerclass Created
     Rides.Bumpercars bumpcars = d[0].new Bumpercars();
     Rides.Ferriswheel wheel= d[0].new Ferriswheel();
     Rides.Waterpark watergame = d[0].new Waterpark();
@@ -93,6 +95,7 @@ class Bleh extends Rides
     {
       d[i].show_info();
     }
+    System.out.println("Each of you are allowed to take 10 Rides from our amusment park");
     System.out.println("1.rides\n");
     int ch=sc.nextInt();
     switch (ch)
@@ -114,12 +117,29 @@ class Bleh extends Rides
                 {
                   if(d[temp[i]-1].age<rollcoast.minage)
                     throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
-                }
                   else
                   {
-
+                    if(d[temp[i]-1].numofridesallowed>0)
+                    {
+                      rollcoast.ridecount++;
+                      d[temp[i]-1].start();                               // Thread sleep function used
+                    }
                   }
-              }
+                }
+                else if(choice==2)
+                {
+                  if(d[temp[i]-1].age<bumpcars.minage)
+                    throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                  else
+                  {
+                    if(d[temp[i]-1].numofridesallowed>0)
+                    {
+                      bumpcars.ridecount++;
+                      d[temp[i]-1].start();
+                    }
+                  }
+                }
+                }
               }catch(Exception e){System.out.println(e);}
               break;
 
