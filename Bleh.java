@@ -69,10 +69,6 @@ class Bleh extends Rides
     for(int i=1;i<=numofguests;i++)
     {
       d[count]=new Rides();
-      Rides.Rollercoaster rollcoast = d[count-1].new Rollercoaster();
-      Rides.Bumpercars bumpcars = d[count-1].new Bumpercars();
-      Rides.Ferriswheel wheel= d[count-1].new Ferriswheel();
-      Rides.Waterpark watergame = d[count-1].new Waterpark();
       sc.nextLine();
       System.out.println("Enter name and age");
       String tempname=sc.next();
@@ -88,6 +84,10 @@ class Bleh extends Rides
     }
     fout.close();
     }catch(Exception e){System.out.println(e);}
+    Rides.Rollercoaster rollcoast = d[0].new Rollercoaster();
+    Rides.Bumpercars bumpcars = d[0].new Bumpercars();
+    Rides.Ferriswheel wheel= d[0].new Ferriswheel();
+    Rides.Waterpark watergame = d[0].new Waterpark();
     System.out.println("Details of all the guests are");
     for(int i=0;i<count;i++)
     {
@@ -112,8 +112,7 @@ class Bleh extends Rides
               {
                 if(choice==1)
                 {
-
-                  if(d[temp[i]-1].age<18)
+                  if(d[temp[i]-1].age<rollcoast.minage)
                     throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
                 }
                   else
