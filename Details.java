@@ -12,6 +12,7 @@ public abstract class Details extends Thread                                  //
     count++;
     this.id=count;
   }
+  public Details(String meh){}
   public abstract void set_info(String name,int age);                        // Abstract method used here
   public abstract void show_info();
   public static void main(String args[])

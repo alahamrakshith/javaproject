@@ -72,8 +72,15 @@ class Bleh extends Rides implements Admin
   { int t=0;
     Rides d[]=new Rides[100];
     Admin moderator=new Rides();
+    count--;
     Scanner sc=new Scanner(System.in);                                // Array of objects used here
-    System.out.println("1.Guest\n2.Admin");
+    d[0]=new Rides();
+    Rides.Rollercoaster rollcoast = d[0].new Rollercoaster();             // Objects of Innerclass Created
+    Rides.Bumpercars bumpcars = d[0].new Bumpercars();
+    Rides.Ferriswheel wheel= d[0].new Ferriswheel();
+    Rides.Waterpark watergame = d[0].new Waterpark();
+    while(true){
+    System.out.println("1.Guest\n2.Admin\n3.exit");
     int identity= sc.nextInt();
     if(identity==1){
     try{
@@ -81,8 +88,8 @@ class Bleh extends Rides implements Admin
     System.out.println("Enter the number of guests");
     int numofguests=sc.nextInt();
     for(int i=1;i<=numofguests;i++)
-    {
-      d[count]=new Rides();
+    { if(i>1)
+        d[count]=new Rides();
       sc.nextLine();
       System.out.println("Enter name and age");
       String tempname=sc.next();
@@ -98,10 +105,7 @@ class Bleh extends Rides implements Admin
     }
     fout.close();
     }catch(Exception e){System.out.println(e);}
-    Rides.Rollercoaster rollcoast = d[0].new Rollercoaster();             // Objects of Innerclass Created
-    Rides.Bumpercars bumpcars = d[0].new Bumpercars();
-    Rides.Ferriswheel wheel= d[0].new Ferriswheel();
-    Rides.Waterpark watergame = d[0].new Waterpark();
+
     System.out.println("Details of all the guests are");
     for(int i=0;i<count;i++)
     {
@@ -126,7 +130,7 @@ class Bleh extends Rides implements Admin
               for(int i=0;i<ridenum;i++)
               {
                 if(choice==1)
-                {
+                { if(rollcoast.state==true){
                   if(d[temp[i]-1].age<rollcoast.minage)
                     throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
                   else
@@ -142,9 +146,13 @@ class Bleh extends Rides implements Admin
                     else
                       System.out.println("You have used the number of rides allowed");
                   }
+                  }
+                  else
+                    {System.out.println("Ride is currently closed");
+                      break;}
                 }
                 else if(choice==2)
-                {
+                { if(bumpcars.state==true){
                   if(d[temp[i]-1].age<bumpcars.minage)
                     throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
                   else
@@ -154,10 +162,16 @@ class Bleh extends Rides implements Admin
                       bumpcars.ridecount++;
                       d[temp[i]-1].start();
                     }
+                    else
+                      System.out.println("You have used the number of rides allowed");
                   }
+                  }
+                  else
+                    {System.out.println("Ride is currently closed");
+                      break;}
                 }
                 if(choice==3)
-                {
+                { if(wheel.state==true){
                   if(d[temp[i]-1].age<wheel.minage)
                     throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
                   else
@@ -170,9 +184,13 @@ class Bleh extends Rides implements Admin
                     else
                       System.out.println("You have used the number of rides allowed");
                   }
+                  }
+                  else
+                    {System.out.println("Ride is currently closed");
+                      break;}
                 }
                 if(choice==4)
-                {
+                { if(watergame.state==true){
                   if(d[temp[i]-1].age<watergame.minage)
                     throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
                   else
@@ -185,6 +203,8 @@ class Bleh extends Rides implements Admin
                     else
                       System.out.println("You have used the number of rides allowed");
                   }
+                  }
+
                 }
               }
             }catch(Exception e){System.out.println(e);}
@@ -212,8 +232,82 @@ class Bleh extends Rides implements Admin
             }
           }
         System.out.println("1.Manage Rides\n2.View Customer Database");
-        
+        int ch= sc.nextInt();
+        switch(ch)
+        {
+          case 1: System.out.println("Select the ride");
+                  System.out.println("1.Rollercoaster\n2.Bumpercars\n3.Ferriswheel\n4.Waterpark");
+                  int ch1=sc.nextInt();
+                  System.out.println("1.Turn on ride\n2.Turn off ride");
+                  ch=sc.nextInt();
+                  if(ch==1)
+                  {
+                    if(ch1==1)
+                    {
+                      if(rollcoast.state==true)
+                        System.out.println("Already on");
+                      else
+                        rollcoast.state=true;
+                    }
+                    if(ch1==2)
+                    {
+                      if(bumpcars.state==true)
+                        System.out.println("Already on");
+                      else
+                        bumpcars.state=true;
+                    }
+                    if(ch1==3)
+                    {
+                      if(wheel.state==true)
+                        System.out.println("Already on");
+                      else
+                        wheel.state=true;
+                    }
+                    if(ch1==4)
+                    {
+                      if(watergame.state==true)
+                        System.out.println("Already on");
+                      else
+                        watergame.state=true;
+                    }
+                  }
+                  if(ch==2)
+                  {
+                    if(ch1==1)
+                    {
+                      if(rollcoast.state==false)
+                        System.out.println("Already off");
+                      else
+                        rollcoast.state=false;
+                    }
+                    if(ch1==2)
+                    {
+                      if(bumpcars.state==false)
+                        System.out.println("Already on");
+                      else
+                        bumpcars.state=false;
+                    }
+                    if(ch1==3)
+                    {
+                      if(wheel.state==false)
+                        System.out.println("Already on");
+                      else
+                        wheel.state=false;
+                    }
+                    if(ch1==4)
+                    {
+                      if(watergame.state==false)
+                        System.out.println("Already on");
+                      else
+                        watergame.state=false;
+                    }
+                  }
+                  break;
+        }
       }
+      else if(identity==3)
+        System.exit(1);
+    }
     }
   @Override
   public void set_info(String name,int age)                          // Method Overriding used here
