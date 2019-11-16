@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
 import detailspackage.Details;           // Custom package which includes an abstract class of the blueprint of customer details
+import adminpackage.Admin;
 
 class InvalidAgeExcpetion extends Exception   //Custom Exception created
 {
@@ -9,7 +10,14 @@ class InvalidAgeExcpetion extends Exception   //Custom Exception created
   }
 }
 
-class Rides extends Details                       //Outer Class used here
+class InvalidPassword extends Exception   //Custom Exception created
+{
+  InvalidPassword(String s){
+    super(s);
+  }
+}
+
+class Rides extends Details implements Admin                       //Outer Class used here
 {
   private static final int time = 10000;
   public void run()
@@ -22,25 +30,25 @@ class Rides extends Details                       //Outer Class used here
     }catch(InterruptedException e){System.out.println(e);}
   }
   class Rollercoaster                             //Innerclass used here
-  {
+  { boolean state= true;
     int minage=18;
     int ridecount;
     int rideguestid[]=new int[100];
   }
   class Bumpercars
-  {
+  { boolean state= true;
     int minage=12;
     int ridecount;
     int rideguestid[]=new int[100];
   }
   class Ferriswheel
-  {
+  { boolean state= true;
     int minage=10;
     int ridecount;
     int rideguestid[]=new int[100];
   }
   class Waterpark
-  {
+  { boolean state= true;
     int minage=7;
     int ridecount;
     int rideguestid[]=new int[100];
@@ -54,20 +62,24 @@ class Rides extends Details                       //Outer Class used here
   @Override
   public void show_info()
   {
-    System.out.println(" "+name+" "+age+" "+id+" ");
+      System.out.println("Name: "+name+" Age: "+age+" Id: "+id+" ");
   }
 }
 
-class Bleh extends Rides
+class Bleh extends Rides implements Admin
 {
   public static void main(String args[])
   { int t=0;
     Rides d[]=new Rides[100];
+    Admin moderator=new Rides();
     Scanner sc=new Scanner(System.in);                                // Array of objects used here
+    System.out.println("1.Guest\n2.Admin");
+    int identity= sc.nextInt();
+    if(identity==1){
     try{
     FileOutputStream fout=new FileOutputStream("Database.txt");
     System.out.println("Enter the number of guests");
-    int numofguests=sc.nextInt();                                    // Wrapper class used here
+    int numofguests=sc.nextInt();
     for(int i=1;i<=numofguests;i++)
     {
       d[count]=new Rides();
@@ -76,7 +88,7 @@ class Bleh extends Rides
       String tempname=sc.next();
       int tempage=sc.nextInt();
       d[count-1].set_info(tempname,tempage);
-      String strage= Integer.toString(tempage);
+      String strage= Integer.toString(tempage);                  // Wrapper class used here
       String addedstrings=(tempname+" "+strage);
       for(int j=0;j<addedstrings.length();j++)// Name and age of all pushed in to a database txt file using FileOutputStream
       {
@@ -127,6 +139,8 @@ class Bleh extends Rides
                         d[temp[i]-1].join();                              // Thread join fucntion used here
                       }catch(Exception e){System.out.println(e);}
                     }
+                    else
+                      System.out.println("You have used the number of rides allowed");
                   }
                 }
                 else if(choice==2)
@@ -142,12 +156,65 @@ class Bleh extends Rides
                     }
                   }
                 }
+                if(choice==3)
+                {
+                  if(d[temp[i]-1].age<wheel.minage)
+                    throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                  else
+                  {
+                    if(d[temp[i]-1].numofridesallowed>0)
+                    {
+                      wheel.ridecount++;
+                      d[temp[i]-1].start();                               // Thread sleep function used here
+                    }
+                    else
+                      System.out.println("You have used the number of rides allowed");
+                  }
                 }
-              }catch(Exception e){System.out.println(e);}
+                if(choice==4)
+                {
+                  if(d[temp[i]-1].age<watergame.minage)
+                    throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                  else
+                  {
+                    if(d[temp[i]-1].numofridesallowed>0)
+                    {
+                      watergame.ridecount++;
+                      d[temp[i]-1].start();                               // Thread sleep function used here
+                    }
+                    else
+                      System.out.println("You have used the number of rides allowed");
+                  }
+                }
+              }
+            }catch(Exception e){System.out.println(e);}
               break;
-
+            }
+            }
+      else if(identity==2)
+      {
+        System.out.println("Please Enter the admin password");
+        String passwordcheck=sc.next();
+        if(passwordcheck.equals(moderator.password)==true)
+          System.out.println("Welcome moderator");
+        else
+          {
+            System.out.println("Incorrect password please enter the password again");
+            passwordcheck=sc.next();
+            if(passwordcheck.equals(moderator.password)==true)
+              System.out.println("Welcome moderator");
+            else
+            {
+              try
+              {
+                throw new InvalidPassword("Entered wrong password twice");
+              }catch(Exception e){System.out.println(e);}
+            }
+          }
+        System.out.println("1.Manage Rides\n2.View Customer Database");
+        
+      }
     }
-  }
   @Override
   public void set_info(String name,int age)                          // Method Overriding used here
   {
@@ -157,7 +224,7 @@ class Bleh extends Rides
   @Override
   public void show_info()
   {
-    System.out.println(" "+name+" "+age+" "+id+" ");
+    System.out.println("Name: "+name+"Age: "+age+"Id: "+id+" ");
   }
 
 }
