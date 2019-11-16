@@ -17,9 +17,10 @@ class InvalidPassword extends Exception   //Custom Exception created
   }
 }
 
-class Rides extends Details implements Admin                       //Outer Class used here
-{
-  private static final int time = 10000;
+class Rides extends Details implements Admin                      //Outer Class used here
+{ public Rides(String meh){System.out.println("Admin "+meh+" created");}
+  Rides(){}
+  private static final int time = 3000;
   public void run()
   {
     try{
@@ -68,35 +69,43 @@ class Rides extends Details implements Admin                       //Outer Class
 
 class Bleh extends Rides implements Admin
 {
-  public static void main(String args[])
+  public static void main(String args[]) throws IOException
   { int t=0;
+    Boolean temp2=false;
     Rides d[]=new Rides[100];
-    Admin moderator=new Rides();
+    Admin moderator=new Rides("Batman");
     count--;
     Scanner sc=new Scanner(System.in);                                // Array of objects used here
     d[0]=new Rides();
+    System.out.println("                   ******WELCOME TO THE AMUSMENT PARK***********              ");
     Rides.Rollercoaster rollcoast = d[0].new Rollercoaster();             // Objects of Innerclass Created
     Rides.Bumpercars bumpcars = d[0].new Bumpercars();
     Rides.Ferriswheel wheel= d[0].new Ferriswheel();
     Rides.Waterpark watergame = d[0].new Waterpark();
     while(true){
     System.out.println("1.Guest\n2.Admin\n3.exit");
+    System.out.println("Enter Input");
     int identity= sc.nextInt();
     if(identity==1){
+    System.out.println("1.NewGuest\n2.Oldguest");
+    System.out.println("Enter Input");
+    int temp1=sc.nextInt();
+    if(temp1==1){
     try{
     FileOutputStream fout=new FileOutputStream("Database.txt");
     System.out.println("Enter the number of guests");
     int numofguests=sc.nextInt();
     for(int i=1;i<=numofguests;i++)
-    { if(i>1)
+    { if(temp2==true)
         d[count]=new Rides();
+      temp2=true;
       sc.nextLine();
       System.out.println("Enter name and age");
       String tempname=sc.next();
       int tempage=sc.nextInt();
       d[count-1].set_info(tempname,tempage);
       String strage= Integer.toString(tempage);                  // Wrapper class used here
-      String addedstrings=(tempname+" "+strage);
+      String addedstrings=(tempname+"-"+strage+"-"+(count));
       for(int j=0;j<addedstrings.length();j++)// Name and age of all pushed in to a database txt file using FileOutputStream
       {
         fout.write(addedstrings.charAt(j));
@@ -112,27 +121,31 @@ class Bleh extends Rides implements Admin
       d[i].show_info();
     }
     System.out.println("Each of you are allowed to take 10 Rides from our amusment park");
+  }
     System.out.println("1.rides\n");
     int ch=sc.nextInt();
     switch (ch)
     {
       case 1: System.out.println("Which Ride do you want to take?\n1.Rollercoaster\n2.Bumpercars\n3.Ferriswheel\n4.Waterpark");
+              System.out.println("Enter Input");
               int choice=sc.nextInt();
               System.out.println("Enter the number of guests taking the ride");
               int ridenum=sc.nextInt();
               int temp[]=new int[ridenum];
               System.out.println("Enter the id's of the guests taking the ride");
+
               for(int i=0;i<ridenum;i++)
               {
                 temp[i]=sc.nextInt();
               }
-              try{
+
               for(int i=0;i<ridenum;i++)
               {
                 if(choice==1)
                 { if(rollcoast.state==true){
                   if(d[temp[i]-1].age<rollcoast.minage)
-                    throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                  {try{throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                }catch(Exception e){System.out.println(e);}}
                   else
                   {
                     if(d[temp[i]-1].numofridesallowed>0)
@@ -151,10 +164,11 @@ class Bleh extends Rides implements Admin
                     {System.out.println("Ride is currently closed");
                       break;}
                 }
-                else if(choice==2)
+                if(choice==2)
                 { if(bumpcars.state==true){
                   if(d[temp[i]-1].age<bumpcars.minage)
-                    throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                  {try{throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                }catch(Exception e){System.out.println(e);}}
                   else
                   {
                     if(d[temp[i]-1].numofridesallowed>0)
@@ -172,8 +186,10 @@ class Bleh extends Rides implements Admin
                 }
                 if(choice==3)
                 { if(wheel.state==true){
+
                   if(d[temp[i]-1].age<wheel.minage)
-                    throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                  {try{throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                }catch(Exception e){System.out.println(e);}}
                   else
                   {
                     if(d[temp[i]-1].numofridesallowed>0)
@@ -191,8 +207,10 @@ class Bleh extends Rides implements Admin
                 }
                 if(choice==4)
                 { if(watergame.state==true){
+
                   if(d[temp[i]-1].age<watergame.minage)
-                    throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                    {try{throw new InvalidAgeExcpetion("Guest "+d[temp[i]-1].name+"'s age is under permitted age limit");
+                  }catch(Exception e){System.out.println(e);}}
                   else
                   {
                     if(d[temp[i]-1].numofridesallowed>0)
@@ -207,7 +225,6 @@ class Bleh extends Rides implements Admin
 
                 }
               }
-            }catch(Exception e){System.out.println(e);}
               break;
             }
             }
@@ -237,8 +254,10 @@ class Bleh extends Rides implements Admin
         {
           case 1: System.out.println("Select the ride");
                   System.out.println("1.Rollercoaster\n2.Bumpercars\n3.Ferriswheel\n4.Waterpark");
+                  System.out.println("Enter Input");
                   int ch1=sc.nextInt();
                   System.out.println("1.Turn on ride\n2.Turn off ride");
+                  System.out.println("Enter Input");
                   ch=sc.nextInt();
                   if(ch==1)
                   {
@@ -303,10 +322,25 @@ class Bleh extends Rides implements Admin
                     }
                   }
                   break;
+            case 2: FileInputStream fstream = new FileInputStream("Database.txt");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+                    String strLine;
+                    System.out.println("Name-Age-ID");
+                    while((strLine=br.readLine())!=null)
+                    {
+                      System.out.println(strLine);
+                    }
+                    System.out.println("Total number of guests = "+(count));
+                    break;
         }
       }
       else if(identity==3)
-        System.exit(1);
+        {
+          try{}
+            finally{
+              System.out.println("Thank you for visiting THE AMUSMENT PARK");
+            }
+        }
     }
     }
   @Override
