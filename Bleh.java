@@ -17,17 +17,18 @@ class InvalidPassword extends Exception   //Custom Exception created
   }
 }
 
-class Rides extends Details implements Admin                      //Outer Class used here
+class Rides extends Details implements Admin                   //Outer Class used here
 { public Rides(String meh){System.out.println("Admin "+meh+" created");}
   Rides(){}
   int time = 3000;
+  String tempname1;
   public void run()
   {
     try{
-      System.out.println(this.name+" started taking the ride");
+      System.out.println(this.tempname1+" started taking the ride");
       Thread.sleep(this.time);
       this.numofridesallowed--;
-      System.out.println(this.name+" finished riding the ride");
+      System.out.println(this.tempname1+" finished riding the ride");
     }catch(InterruptedException e){System.out.println(e);}
   }
   class Rollercoaster                             //Innerclass used here
@@ -74,9 +75,16 @@ class Rides extends Details implements Admin                      //Outer Class 
 class Bleh extends Rides implements Admin
 {
   public static void main(String args[]) throws IOException
-  { int t=0,tempcount1=0,tempcount2=0,tempcount3=0,tempcount4=0;
+  { int t=0,tempcount1=0,tempcount2=0,tempcount3=0,tempcount4=0,tempi=0;
     Boolean temp2=false;
     Rides d[]=new Rides[100];
+    Rides a[]=new Rides[100];
+    for(int i=0;i<100;i++)
+     {
+       a[i]=new Rides();
+     }
+     count=count-100;
+     System.out.println(count);
     Admin moderator=new Rides("Batman");
     count--;
     Scanner sc=new Scanner(System.in);                                // Array of objects used here
@@ -108,6 +116,7 @@ class Bleh extends Rides implements Admin
       String tempname=sc.next();
       int tempage=sc.nextInt();
       d[count-1].set_info(tempname,tempage);
+      System.out.println(d[count-1].name);
       String strage= Integer.toString(tempage);                  // Wrapper class used here
       String addedstrings=(tempname+"-"+strage+"-"+(count));
       for(int j=0;j<addedstrings.length();j++)// Name and age of all pushed in to a database txt file using FileOutputStream
@@ -127,6 +136,7 @@ class Bleh extends Rides implements Admin
     System.out.println("Each of you are allowed to take 10 Rides from our amusment park");
   }
     System.out.println("1.rides\n");
+
     int ch=sc.nextInt();
     switch (ch)
     {
@@ -163,14 +173,12 @@ class Bleh extends Rides implements Admin
                       fout.close();
                     }catch(Exception e){System.out.println(e);}
                       rollcoast.ridecount++;
-                      if(tempcount1==0)
-                        d[temp[i]-1].start();
-                      tempcount1=1;
-                      d[temp[i]-1].run();                    // Thread sleep function used here
-
+                        a[tempi].tempname1=d[temp[i]-1].name;
+                        a[tempi].start();                        // Thread sleep function used here
                       try{
-                        d[temp[i]-1].join();                              // Thread join fucntion used here
+                        a[tempi].join();                              // Thread join fucntion used here
                       }catch(Exception e){System.out.println(e);}
+                      tempi++;
                     }
                     else
                       System.out.println("You have used the number of rides allowed");
@@ -179,6 +187,7 @@ class Bleh extends Rides implements Admin
                   else
                     {System.out.println("Ride is currently closed");
                       break;}
+
                 }
                 if(choice==2)
                 { if(bumpcars.state==true){
@@ -199,10 +208,9 @@ class Bleh extends Rides implements Admin
                         fout.close();
                       }catch(Exception e){System.out.println(e);}
                       bumpcars.ridecount++;
-                      if(tempcount2==0)
-                        d[temp[i]-1].start();
-                      tempcount2=1;
-                      d[temp[i]-1].run();
+                      a[tempi].tempname1=d[temp[i]-1].name;
+                      a[tempi].start();
+                      tempi++;
 
                     }
                     else
@@ -233,10 +241,9 @@ class Bleh extends Rides implements Admin
                         fout.close();
                       }catch(Exception e){System.out.println(e);}
                       wheel.ridecount++;
-                      if(tempcount3==0)
-                        d[temp[i]-1].start();
-                      tempcount3=1;
-                      d[temp[i]-1].run();                        // Thread sleep function used here
+                      a[tempi].tempname1=d[temp[i]-1].name;
+                        a[tempi].start();                      // Thread sleep function used here
+                        tempi++;
                     }
 
                     else
@@ -267,10 +274,9 @@ class Bleh extends Rides implements Admin
                         fout.close();
                       }catch(Exception e){System.out.println(e);}
                       watergame.ridecount++;
-                      if(tempcount4==0)
-                        d[temp[i]-1].start();
-                      tempcount4=1;
-                      d[temp[i]-1].run();                               // Thread sleep function used here
+                      a[tempi].tempname1=d[temp[i]-1].name;
+                        a[tempi].start();                             // Thread sleep function used here
+                        tempi++;
                     }
 
                     else
