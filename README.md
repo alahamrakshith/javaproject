@@ -1,5 +1,8 @@
 # javaproject
 
+To run, javac Bleh.java
+        java Bleh
+
 Name- Rakshith Alaham Gangeya, Reg no:- 189302117, Section:- CSE-D , RollNo-51
 
 # INTRODUCTION
